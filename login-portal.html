@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Portal - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 320px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            border-radius: 15px;
+            padding: 25px;
+            margin: -30px -30px 30px -30px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+        }
+
+        .login-card:hover .card-header::before {
+            transform: rotate(45deg) translate(100%, 100%);
+        }
+
+        .employee-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .student-header {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .parent-header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .employee-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .student-btn {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .parent-btn {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .user-icon {
+            width: 80px;
+            height: 80px;
+            margin: 20px auto;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .dashboard {
+            display: none;
+            background: white;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .dashboard-content {
+            padding: 20px;
+            height: calc(100vh - 84px);
+        }
+
+        .dashboard-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .login-card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loginPage" class="container">
+        <!-- Employee Login -->
+        <div class="login-card">
+            <div class="card-header employee-header">
+                <div class="user-icon">👨‍💼</div>
+                Faculty Login
+            </div>
+            <form id="employeeForm">
+                <div class="form-group">
+                    <label for="empUsername">Faculty ID:</label>
+                    <input type="text" id="empUsername" name="username" placeholder="Enter Faculty ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="empPassword">Password:</label>
+                    <input type="password" id="empPassword" name="password" required>
+                </div>
+                <button type="submit" class="login-btn employee-btn">Login</button>
+                <div class="error-message" id="empError">Invalid Faculty ID or password must match ID</div>
+            </form>
+        </div>
+
+        <!-- Student Login -->
+        <div class="login-card">
+            <div class="card-header student-header">
+                <div class="user-icon">🎓</div>
+                Student Login
+            </div>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="stuUsername">Student ID:</label>
+                    <input type="text" id="stuUsername" name="username" value="22A91A05B0" placeholder="Enter Student ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="stuPassword">Password:</label>
+                    <input type="password" id="stuPassword" name="password" required>
+                </div>
+                <button type="submit" class="login-btn student-btn">Login</button>
+                <div class="error-message" id="stuError">Invalid Student ID or password must match ID</div>
+            </form>
+        </div>
+
+        <!-- Parent Login -->
+        <div class="login-card">
+            <div class="card-header parent-header">
+                <div class="user-icon">👨‍👩‍👧‍👦</div>
+                Parent Login
+            </div>
+            <form id="parentForm">
+                <div class="form-group">
+                    <label for="parUsername">Parent ID:</label>
+                    <input type="text" id="parUsername" name="username" placeholder="Enter Parent ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="parPassword">Password:</label>
+                    <input type="password" id="parPassword" name="password" required>
+                </div>
+                <button type="submit" class="login-btn parent-btn">Login</button>
+                <div class="error-message" id="parError">Invalid Parent ID or password must match ID</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Faculty Dashboard -->
+    <div id="facultyDashboard" class="dashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-title">Faculty Dashboard</div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <div class="dashboard-content">
+            <iframe id="facultyIframe" class="dashboard-iframe" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div id="studentDashboard" class="dashboard">
+        <div class="dashboard-header" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+            <div class="dashboard-title">Student Dashboard</div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <div class="dashboard-content">
+            <iframe id="studentIframe" class="dashboard-iframe" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <!-- Parent Dashboard -->
+    <div id="parentDashboard" class="dashboard">
+        <div class="dashboard-header" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+            <div class="dashboard-title">Parent Dashboard</div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <div class="dashboard-content">
+            <iframe id="parentIframe" class="dashboard-iframe" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Valid IDs for each user type - ADD YOUR IDs HERE
+        const validIds = {
+            faculty: [
+                'FAC001', 'FAC002', 'FAC003', 'FAC004', 'FAC005',
+                'PROF001', 'PROF002', 'PROF003', 'PROF004', 'PROF005',
+                'INST001', 'INST002', 'INST003', 'INST004', 'INST005'
+                // Add more faculty IDs as needed
+            ],
+            student: [
+                '22A91A05B0', '22A91A05B1', '22A91A05B2', '22A91A05B3', '22A91A05B4',
+                '22A91A05B5', '22A91A05B6', '22A91A05B7', '22A91A05B8', '22A91A05B9',
+                '21A91A05B0', '21A91A05B1', '21A91A05B2', '21A91A05B3', '21A91A05B4',
+                '23A91A05B0', '23A91A05B1', '23A91A05B2', '23A91A05B3', '23A91A05B4'
+                // Add more student IDs as needed
+            ],
+            parent: [
+                'P22A91A05B0', 'P22A91A05B1', 'P22A91A05B2', 'P22A91A05B3', 'P22A91A05B4',
+                'P21A91A05B0', 'P21A91A05B1', 'P21A91A05B2', 'P21A91A05B3', 'P21A91A05B4',
+                'PAR001', 'PAR002', 'PAR003', 'PAR004', 'PAR005'
+                // Add more parent IDs as needed
+            ]
+        };
+
+        // Project URLs - Replace these with your actual project URLs
+        const projectUrls = {
+            faculty: 'https://example.com/faculty-project',
+            student: 'https://example.com/student-project', 
+            parent: 'https://example.com/parent-project'
+        };
+
+        // Authentication function - Password must match the ID
+        function authenticate(userType, id, password) {
+            return validIds[userType].includes(id) && id === password;
+        }
+
+        // Handle Faculty Login
+        document.getElementById('employeeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('empUsername').value;
+            const password = document.getElementById('empPassword').value;
+            
+            if (authenticate('faculty', id, password)) {
+                showDashboard('faculty');
+            } else {
+                showError('empError');
+            }
+        });
+
+        // Handle Student Login
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('stuUsername').value;
+            const password = document.getElementById('stuPassword').value;
+            
+            if (authenticate('student', id, password)) {
+                showDashboard('student');
+            } else {
+                showError('stuError');
+            }
+        });
+
+        // Handle Parent Login
+        document.getElementById('parentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('parUsername').value;
+            const password = document.getElementById('parPassword').value;
+            
+            if (authenticate('parent', id, password)) {
+                showDashboard('parent');
+            } else {
+                showError('parError');
+            }
+        });
+
+        function showDashboard(userType) {
+            // Hide login page
+            document.getElementById('loginPage').style.display = 'none';
+            
+            // Show appropriate dashboard
+            const dashboardId = userType === 'faculty' ? 'facultyDashboard' : 
+                              userType === 'student' ? 'studentDashboard' : 'parentDashboard';
+            document.getElementById(dashboardId).style.display = 'block';
+            
+            // Load project in iframe
+            const iframeId = userType === 'faculty' ? 'facultyIframe' : 
+                            userType === 'student' ? 'studentIframe' : 'parentIframe';
+            document.getElementById(iframeId).src = projectUrls[userType];
+        }
+
+        function showError(errorId) {
+            const errorElement = document.getElementById(errorId);
+            errorElement.style.display = 'block';
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 3000);
+        }
+
+        function logout() {
+            // Hide all dashboards
+            document.getElementById('facultyDashboard').style.display = 'none';
+            document.getElementById('studentDashboard').style.display = 'none';
+            document.getElementById('parentDashboard').style.display = 'none';
+            
+            // Show login page
+            document.getElementById('loginPage').style.display = 'flex';
+            
+            // Clear form inputs
+            document.getElementById('empUsername').value = '';
+            document.getElementById('empPassword').value = '';
+            document.getElementById('stuUsername').value = '22A91A05B0';
+            document.getElementById('stuPassword').value = '';
+            document.getElementById('parUsername').value = '';
+            document.getElementById('parPassword').value = '';
+        }
+    </script>
+</body>
+</html>
