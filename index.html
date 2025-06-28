@@ -643,7 +643,7 @@
             </div>
         </div>
         <div class="dashboard-content">
-            <iframe id="facultyIframe" class="dashboard-iframe" src="about:blank"></iframe>
+            <iframe id="facultyIframe" class="dashboard-iframe" title="Faculty Dashboard" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=7af02d2f-6ca3-4509-85fe-203b6b6587bd&autoAuth=true&ctid=7359f896-71e2-4dae-b8a3-15cdf97f2f10&navigation=false&filterPaneEnabled=false&navContentPaneEnabled=false" frameborder="0" allowFullScreen="true"></iframe>
         </div>
     </div>
 
@@ -664,7 +664,7 @@
             </div>
         </div>
         <div class="dashboard-content">
-            <iframe id="studentIframe" class="dashboard-iframe" src="about:blank"></iframe>
+            <iframe id="studentIframe" class="dashboard-iframe" title="Student Dashboard" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=0d49332d-9f5a-4540-b45a-3e3f312df6aa&autoAuth=true&ctid=7359f896-71e2-4dae-b8a3-15cdf97f2f10&navigation=false&filterPaneEnabled=false&navContentPaneEnabled=false&filter=Student Data/Roll Number eq '22A91A12C2'" frameborder="0" allowFullScreen="true"></iframe>
         </div>
     </div>
 
@@ -685,7 +685,7 @@
             </div>
         </div>
         <div class="dashboard-content">
-            <iframe id="parentIframe" class="dashboard-iframe" src="about:blank"></iframe>
+            <iframe id="parentIframe" class="dashboard-iframe" title="Parent Dashboard" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=b09b98c2-a389-43ea-bdd8-adb685880b5c&autoAuth=true&ctid=7359f896-71e2-4dae-b8a3-15cdf97f2f10&navigation=false&filterPaneEnabled=false&navContentPaneEnabled=false" frameborder="0" allowFullScreen="true"></iframe>
         </div>
     </div>
 
@@ -708,13 +708,6 @@
                 'P21A91A05B0', 'P21A91A05B1', 'P21A91A05B2', 'P21A91A05B3', 'P21A91A05B4',
                 'PAR001', 'PAR002', 'PAR003', 'PAR004', 'PAR005'
             ]
-        };
-
-        // Project URLs
-        const projectUrls = {
-            faculty: 'https://example.com/faculty-project',
-            student: 'https://example.com/student-project', 
-            parent: 'https://example.com/parent-project'
         };
 
         // Profile photos based on user type and ID
@@ -791,11 +784,6 @@
             
             userIdElement.textContent = userId;
             photoElement.textContent = getProfilePhoto(userType, userId);
-            
-            // Load project in iframe
-            const iframeId = userType === 'faculty' ? 'facultyIframe' : 
-                            userType === 'student' ? 'studentIframe' : 'parentIframe';
-            document.getElementById(iframeId).src = projectUrls[userType];
         }
 
         function showError(errorId) {
@@ -819,10 +807,9 @@
             // Clear form inputs
             document.getElementById('empUsername').value = '';
             document.getElementById('empPassword').value = '';
-            document.getElementById('stuUsername').value = '22A91A05B0';
+            document.getElementById('stuUsername').value = '';
             document.getElementById('stuPassword').value = '';
             document.getElementById('parUsername').value = '';
-            document.getElementById('parPassword').value = '';
         }
     </script>
 </body>
